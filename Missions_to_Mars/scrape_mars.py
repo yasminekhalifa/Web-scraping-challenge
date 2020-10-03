@@ -12,9 +12,11 @@ from urllib.request import urlopen as uReq
 
 def init_browser():
     executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
+    return Browser('chrome', **executable_path, headless=False)
 
 def scrape():
+    browser = init_browser()
+    mars_dict = {}
     # ## NASA Mars News
     url = "https://mars.nasa.gov/news"
     browser.visit(url)
@@ -38,7 +40,6 @@ def scrape():
         except AttributeError as e:
             print(e)
 
-
     # ## JPL Mars Space Images - Featured Image
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(url)
@@ -46,7 +47,7 @@ def scrape():
     soup = bs(html, 'html.parser')
 
     browser.find_by_id("full_image").click()
-    time.sleep(10)
+    time.sleep(5)
     html = browser.html
     soup = bs(html, 'html.parser')
 
@@ -77,13 +78,6 @@ def scrape():
     html = browser.html
     soup = bs(html, 'html.parser')
 
-
-    results = soup.find_all('div', class_='description')
-
-    mydivs = soup.find_all("a", {"class":"itemLink product-item"})
-
-    elem = soup.select('h3')
-
     titles = soup.find_all("h3")
     titles_list = []
     for t in titles:
@@ -108,6 +102,19 @@ def scrape():
 
     Hemisphere_image_url = [ {'Title': titles_list[i], 'image_url': links[i] } for i in range(len(links)) ]
     print(Hemisphere_image_url)
+
+    mars_dict = {
+        # "title": title,
+        # "teaser": teaser,
+        "featured_image_url": featured_image_url,
+        "table": html_table,
+        "Hemisphere_image_url": Hemisphere_image_url}
+
+    browser.quit()
+    return mars_dict
+
+
+
 
 
 

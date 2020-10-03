@@ -17,11 +17,24 @@
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape new data</a></p>
     </div>
 
-    <!-- Craigslist Listings -->
-    <div class="row" id="craiglist-listings">
+    <!-- Mars data -->
+    <div class="row" id="mars_data">
       <div class="col-md-12">
-        <h4 class="heading">{{listings.price}} {{listings.headline}}</h4>
-        <small>{{listings.hood}}</small>
+        <h2 class="heading">Latest Mars News </h2>
+        <h3 class="heading">{{mars.title}} </h3>
+        <h3 class="heading">{{mars.teaser}} </h3>
+        <h2 class="heading">Mars Featured Image </h2>
+        <img src="{{mars.featured_image_url }}" alt="mars">
+        <!DOCTYPE html>
+<html lang="en">
+
+<div class="container">
+  <h2>Mars Facts</h2>
+    {{mars.table}}
+</div>
+</body>
+</html>
+
       </div>
     </div>
 
