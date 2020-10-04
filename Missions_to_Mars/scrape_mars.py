@@ -20,19 +20,16 @@ def scrape():
     # ## NASA Mars News
     url = "https://mars.nasa.gov/news"
     browser.visit(url)
+    time.sleep(5)
+
     html = browser.html
 
     news_soup = bs(html, 'html.parser')
 
     slide_elem = news_soup.select('ul.item_list li.slide')
-    mars_dict["title"] = slide_elem.find('div', class_="content_title").text
-    mars_dict["teaser"] = slide_elem.find('div', class_="article_teaser_body").text
-    # Loop through returned results
-    # for result in slide_elem:
-    #     # Identify and return title and teaser of news
-    #     mars_dict["title"] = result.find('div', class_="content_title").text
-    #     mars_dict["teaser"] = result.find('div', class_="article_teaser_body").text
-    #         # Print results only if title and teaser are available
+
+    title = slide_elem[0].find('div', class_="content_title").text
+    teaser = slide_elem[0].find('div', class_="article_teaser_body").text
 
     # ## JPL Mars Space Images - Featured Image
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
@@ -98,8 +95,8 @@ def scrape():
     print(Hemisphere_image_url)
 
     mars_dict = {
-        # "title": news[0],
-        # "teaser": news[1],
+        "title": title,
+        "teaser": teaser,
         "featured_image_url": featured_image_url,
         "table": html_table,
         "Hemisphere_image_url": Hemisphere_image_url}
